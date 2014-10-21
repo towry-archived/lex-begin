@@ -14,19 +14,20 @@
 
 %}
 
+%x HERE
+
 /* options */
 /* %option noyywrap */
 
 /* Lex macro definitions */
-ADDRESS 	http:\/\/[^ \n<>"]*
-OTHER 	.|\n
+INCL 	^#[ \t]*include[ \t]*
+OTHER 	[.\n]+
 
 /* token definition rules */
 %%
 
-{ADDRESS} 	ECHO;
-{OTHER} 	;
-
+{INCL} 	BEGIN HERE;
+<HERE>[\">][^ \t\n]+[\">] 	{ printf("anything else after INCL: %s", yytext); }
 %%
 
 /* other codes */
